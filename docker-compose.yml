@@ -1,0 +1,11 @@
+services:
+  cyberlera:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cyberlera
+    volumes:
+      - .:/var/www/cyberlera
+    # command: php Bot.php
+    restart: always
+    privileged: true
