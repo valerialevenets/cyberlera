@@ -20,14 +20,16 @@ class PrivateMessageProcessor
         }
         $messageText = $message->text;
         if ($this->hasUrl($messageText)) {
-            $filename = $this->downloader->download($messageText);
-            $this->telegram->sendVideo(
-                [
-                    'chat_id' => ConfigProvider::getDestinationChannel(),
-                    'video' => InputFile::createFromContents(file_get_contents($filename), 'video.mp4'),
-                ]
-            );
-            unlink($filename);
+            try {
+                $filename = $this->downloader->download($messageText);
+                $this->telegram->sendVideo(
+                    [
+                        'chat_id' => ConfigProvider::getDestinationChannel(),
+                        'video' => InputFile::createFromContents(file_get_contents($filename), 'video.mp4'),
+                    ]
+                );
+                unlink($filename);
+            } catch (\Exception $exception) {}
         } else {
 
         }
